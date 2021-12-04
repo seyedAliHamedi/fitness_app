@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dashboard.dart';
 import './animation.dart';
-import 'package:page_transition/page_transition.dart';
 
 void main() {
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomePage(),
+    routes: {
+      '/': (context) => const HomePage(),
+      '/dashboard': (context) => const Dashboard()
+    },
+    initialRoute: '/',
   ));
 }
 
@@ -34,11 +37,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     scaleController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1))
           ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.fade, child: const Dashboard()));
+             if (status == AnimationStatus.completed) {
+              Navigator.pushNamed(context, '/dashboard');
             }
           });
 
